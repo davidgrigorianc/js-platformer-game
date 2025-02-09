@@ -1,0 +1,301 @@
+<style>
+  body {
+    background: black;
+    font-family: "Arial", sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .health-bar-wrapper {
+    position: relative;
+    height: 30px;
+    width: 100%;
+    background-color: darkred;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  .health-fill {
+    background-color: limegreen;
+    height: 100%;
+    width: 100%;
+  }
+
+  .health-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #startMenu {
+    position: absolute;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 30px 40px;
+    border-radius: 8px;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+  }
+
+  #startMenu h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    background: limegreen;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  button:hover {
+    background: green;
+  }
+
+  #gameTitle {
+    font-size: 70px;
+    color: #b48c3e;
+    font-family: "Cinzel", serif;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 6px 6px 15px rgba(0, 0, 0, 0.8);
+    letter-spacing: 4px;
+    margin: 0;
+  }
+
+  #gameSubtitle {
+    font-size: 36px;
+    color: #6c6c6c;
+    font-family: "Arial", sans-serif;
+    text-align: center;
+    font-weight: normal;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    margin-top: 10px;
+  }
+
+  #gameResultBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    display: none;
+  }
+
+  #gameResultText {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+  }
+
+  #gameResultText.win {
+    color: limegreen;
+  }
+
+  #gameResultText.died {
+    color: red;
+    text-shadow: 2px 2px 6px darkred;
+  }
+
+  #restartButton {
+    background: limegreen;
+    color: black;
+    border: none;
+    padding: 12px 24px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  #restartButton:hover {
+    background: darkgreen;
+    color: white;
+  }
+
+  #menuBox {
+  position: absolute;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 40px 50px;
+  border-radius: 10px;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  top: 30%;
+  left: 50%;
+  max-width: 800px;
+}
+
+#menuTitle {
+  font-size: 40px;
+  color: #b48c3e;
+  font-family: "Cinzel", serif;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+#menuSubtitle {
+  font-size: 18px;
+  color: #bcbcbc;
+  font-family: "Arial", sans-serif;
+  text-align: center;
+  font-weight: normal;
+  margin-top: 10px;
+}
+
+.character-btn {
+  background: darkgray;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  border-radius: 8px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.character-btn.active {
+  background: limegreen;
+  color: black;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+}
+
+.character-btn:hover {
+  background: lightgray;
+}
+#menuButtons {
+  display: flex;
+  justify-content: center;
+}
+#startGame:disabled {
+  background: gray;
+  cursor: not-allowed;
+}
+button {
+  background: limegreen;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: green;
+}
+
+#monitoring  p{
+  font-size: 15px;
+  margin: 0;
+}
+</style>
+
+<body>
+  <div style="position: relative; display: inline-block">
+    <div>
+      <div
+        style="
+          position: absolute;
+          display: flex;
+          justify-content: space-between;
+          width: 1074px;
+          padding: 20px;
+        "
+      >
+        <div class="health-bar-wrapper">
+          <div id="warriorHealth" class="health-fill"></div>
+          <div class="health-label">Warrior</div>
+        </div>
+
+        <div style="width: 200px; text-align: center; font-size: 24px">
+          <span id="gameTimer">03:00</span>
+        </div>
+        <div class="health-bar-wrapper">
+          <div id="huntressHealth" class="health-fill"></div>
+          <div class="health-label">Huntress</div>
+        </div>
+      </div>
+
+      <canvas width="1074" height="500"></canvas>
+
+      <div id="menuBox">
+        <h1 id="menuTitle">The Great Clash:</h1>
+        <h2 id="menuSubtitle">I Just Learned to Code This!</h2>
+      
+        <h3>Select Your Character:</h3>
+        <div id="characterSelection">
+          <button class="character-btn" data-character="warrior">🛡️ Warrior</button>
+          <button class="character-btn" data-character="huntress">🏹 Huntress</button>
+        </div>
+      
+        <div id="menuButtons">
+          <button id="startGame" disabled>Start Game</button>
+          <button id="restartButton" style="display: none;">Start Again</button>
+        </div>
+      
+        <h1 id="gameResultText" style="display: none;">You Died</h1>
+      </div>
+  </div>
+  <div id="monitoring" style="display: none;">
+    <div style="background-color: aliceblue;display: flex;justify-content: space-between;">
+      <div id="huntress_monitoring">
+        <h1>Huntress</p>
+        <p>hitbox.position.x: <span class="huntress-hitbox-x"></span></p>
+        <p>hitbox.position.y: <span class="huntress-hitbox-y"></span></p>
+        <p>isGrounded <span class="huntress-isGrounded"></span></p>
+      </div>
+  
+      <div id="warrior_monitoring">
+        <h1>Warrior</p>
+        <p>hitbox.position.x: <span class="warrior-hitbox-x"></span></p>
+        <p>hitbox.position.y: <span class="warrior-hitbox-y"></span></p>
+        <p>state: <span class="warrior-state"></span></p>
+        <p>isGrounded: <span class="warrior-isGrounded"></span></p>
+      </div>
+      <div id="camera_monitoring">
+        <h1>Camera</p>
+        <p>camera.position.x: <span class="camera-position-x"></span></p>
+        <p>camera.position.y: <span class="camera-position-y"></span></p>
+      </div>
+    </div>
+  </div>
+  <script src="./js/utils.js"></script>
+  <script src="./js/updateHuntressState.js"></script>
+  <script src="./js/classes/Sprite.js"></script>
+  <script src="./js/classes/Warrior.js"></script>
+  <script src="./js/classes/Huntress.js"></script>
+  <script src="./js/classes/Arrow.js"></script>
+  <script src="./js/classes/CollisionBlock.js"></script>
+  <script src="./js/data/collisions.js"></script>
+  <script src="index.js"></script>
+</body>
